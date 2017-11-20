@@ -23,6 +23,11 @@
 				<label>Task</label> <input type="text" required="required"
 					name="task" class="large" placeholder="Breakfast at Tiffanys" maxlength="200"  />
 			</div>
+
+            <div>
+                <label>User ID</label> <input type="text" required="required"
+                                           name="userId" class="large" placeholder="User ID" maxlength="200"  />
+            </div>
 			<div>
 				<label>Required by</label> <input type="date" required="required"
 					name="requiredBy" />
@@ -48,15 +53,17 @@
 	<section>
 		<table id="tblTasks">
 			<colgroup>
-				<col width="40%">
+				<col width="35%">
 				<col width="10%">
+                <col width="10%">
                 <col width="10">
 				<col width="10%">
-				<col width="30%">
+				<col width="25%">
 			</colgroup>
 			<thead>
 				<tr>
 					<th>Name</th>
+                    <th>User ID</th>
 					<th>Due</th>
                     <th>Priority</th>
 					<th>Category</th>
@@ -106,6 +113,7 @@ if (window.indexedDB) {
 <script id="taskRow" type="text/x-jQuery-tmpl">
 <tr>
 	<td {{if complete == true}}class="taskCompleted"{{/if}}>${task}</td>
+	<td {{if complete == true}} class="taskCompleted"{{/if}}>${userId}</td>
 	<td {{if complete == true}}class="taskCompleted"{{/if}}><time datetime="${requiredBy}">${requiredBy}</time></td>
 	<td {{if complete == true}} class="taskComplete"{{/if}}>${priority}</td>
 	<td {{if complete == true}}class="taskCompleted"{{/if}}>${category}</td>

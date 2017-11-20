@@ -4,27 +4,27 @@ public class Task {
 
     private int id;
     private String task;
-   /* private String userId;*/
+    private String userId;
     private String dueDate;
     private String priority;
     private String category;
 
-    public Task(int id, String task, String dueDate, String priority, String category) {
+    public Task(int id, String task, String userId, String dueDate, String priority, String category) {
         this.id = id;
         this.task = task;
-       /* this.userId = userId;*/
+        this.userId = userId;
         this.dueDate = dueDate;
         this.priority = priority;
         this.category = category;
     }
-/*
+
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }*/
+    }
 
     public int getId() {
         return id;
