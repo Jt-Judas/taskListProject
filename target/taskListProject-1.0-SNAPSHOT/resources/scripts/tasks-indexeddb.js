@@ -65,7 +65,7 @@ storageEngine = function() {
 	    	var request = objectStore.put(obj);
 	    	request.onsuccess = function(event) {
 	    		obj.id = event.target.result
-	    	}
+	    	};
 	    	request.onerror = function(event) {
 	    		errorCallback('object_not_stored', 'It is not possible to store the object');
 	    	};
