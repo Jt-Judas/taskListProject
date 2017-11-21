@@ -78,6 +78,11 @@ tasksController = function () {
                     $(taskPage).find('#taskTeam').removeClass('not');
                 });
 
+                $(taskPage).find('#bthAddUser').click(function (evt) {
+                    evt.preventDefault();
+                    $(taskPage).find('#taskUsers').removeClass('not');
+                });
+
 
                 /**     * 11/19/17kl        */
                 $(taskPage).find('#btnRetrieveTasks').click(function (evt) {
@@ -177,7 +182,16 @@ tasksController = function () {
                 $(taskPage).find('#btnName').click(function (evt) {
                     evt.preventDefault();
 
-                    tasksController.retriveSortTask();
+                    $.ajax("TaskServlet,", {
+                        "type": "get",
+                        dataType: "json",
+                        "data": {
+                            "sort": $("#btnName").val()
+
+                        }
+                    }).done(displayTasksServer.bind());
+
+                    //tasksController.retriveSortTask();
                 });
 
                 $(taskPage).find('#btnTeamName').click(function (evt) {
