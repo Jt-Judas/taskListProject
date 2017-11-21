@@ -25,9 +25,13 @@ public class TaskServlet extends HttpServlet {
 
         DbConnection dbConn = DbConnection.getInstance();
 
-        /*String Username = request.getParameter("usertext");
-        String Phone = request.getParameter("phone");
-        String Email = request.getParameter("email");*/
+        String task = request.getParameter("task");
+        String userId = request.getParameter("userId");
+        String requiredBy = request.getParameter("requiredBy");
+        String priority = request.getParameter("priority");
+        String category = request.getParameter("category");
+
+
         Connection conn;
 
         Statement stmt = null;
@@ -35,8 +39,7 @@ public class TaskServlet extends HttpServlet {
             conn = dbConn.getConnect();
             stmt = conn.createStatement();
 
-            String sql = "INSERT INTO task " +
-                    "VALUES ('2','task 1 test', '1', '2017-10-11', 'high','Work')";
+            String sql = "INSERT INTO task(task, user_id,duedate,priority,category) VALUES ('"+ task +"','"+ userId+"','" + requiredBy+ "','" +priority+ "','" + category+"')";
             stmt.executeUpdate(sql);
 
         } catch (Exception e) {
