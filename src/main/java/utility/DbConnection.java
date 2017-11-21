@@ -100,9 +100,8 @@ public class DbConnection {
             User user = null;
             List<User> userList = new ArrayList<User>();
 
-
             while (result.next()) {
-               // user = new User(Integer.parseInt(result.getString("id")), result.getString("task"), result.getString("user_id"), result.getString("duedate"), result.getString("priority"), result.getString("category"));
+                user = new User(Integer.parseInt(result.getString("id")), result.getString("fname"), result.getString("lname"), result.getString("phone"), result.getString("email"), null);
                 userList.add(user);
             }
 
