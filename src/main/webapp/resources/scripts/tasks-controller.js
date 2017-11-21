@@ -119,6 +119,7 @@ tasksController = function() {
 				
 				$(taskPage).find('#saveTask').click(function(evt) {
 					evt.preventDefault();
+					tasksController().saveTask();
 					if ($(taskPage).find('form').valid()) {
 						var task = $(taskPage).find('form').toObject();		
 						storageEngine.save('task', task, function() {
@@ -163,6 +164,15 @@ tasksController = function() {
 					renderTable();
 				});
 			}, errorLogger);
-		} 
+		},
+        saveTask: function () {
+            $.ajax("TaskServlet", {
+                "type": "post",
+                //dataType: "json"
+                // "data": {
+                //     "first": first,
+                //     "last": last
+                // }
+            }).done(displayTasksServer.bind()); //need reference to the tasksController object
 	} 
 }();
