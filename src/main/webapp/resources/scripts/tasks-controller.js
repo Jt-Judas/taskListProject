@@ -151,6 +151,12 @@ tasksController = function () {
                     }
                 });
 
+                $(taskPage).find('#btnName').click(function (evt) {
+                    evt.preventDefault();
+
+                    tasksController.retriveSortTask();
+                });
+
                 $(taskPage).find('#btnTeamName').click(function (evt) {
                     evt.preventDefault();
 
@@ -235,7 +241,11 @@ tasksController = function () {
         retriveSortTask: function () {
             $.ajax("TaskServlet", {
                 "type": "get",
-                dataType: "json"
+                dataType: "json",
+                "data": {
+                    "sort": $("#btnName").val(),
+
+                }
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         },
 
