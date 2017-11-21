@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/TaskServlet")
@@ -31,27 +33,37 @@ public class TaskServlet extends HttpServlet {
         String priority = request.getParameter("priority");
         String category = request.getParameter("category");
 
-
-        Connection conn;
-
+        Connection conn = null;
         Statement stmt = null;
+
         try {
             conn = dbConn.getConnect();
             stmt = conn.createStatement();
 
-            String sql = "INSERT INTO task(task, user_id,duedate,priority,category) VALUES ('"+ task +"','"+ userId+"','" + requiredBy+ "','" +priority+ "','" + category+"')";
+            String sql = "INSERT INTO task(task, user_id,duedate,priority,category) VALUES ('" + task + "','" + userId + "','" + requiredBy + "','" + priority + "','" + category + "')";
             stmt.executeUpdate(sql);
+            doGet(request,response);
 
         } catch (Exception e) {
             pw.println(e);
         }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        DbConnection dbConn = DbConnection.getInstance();
+        Task task = null;
+        List<Task> taskList = null;
+        try {
+            taskList = dbConn.retrieveData("task");
+
+        } catch (Exception e) {
+            out.println(e);
+        }
 
         String JSONtasks;
-        List<Task> taskList = new MockData().retrieveTaskList();
+        //List<Task> taskList = new MockData().retrieveTaskList();
         JSONtasks = new Gson().toJson(taskList);
 
         response.setContentType("application/json");

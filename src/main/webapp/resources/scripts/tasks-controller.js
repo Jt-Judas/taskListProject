@@ -12,16 +12,6 @@ tasksController = function() {
 	 * currently just testing this and writing return value out to console
 	 * 111917kl
      */
-	function retrieveTasksServer() {
-        $.ajax("TaskServlet", {
-            "type": "get",
-			dataType: "json"
-            // "data": {
-            //     "first": first,
-            //     "last": last
-            // }
-        }).done(displayTasksServer.bind()); //need reference to the tasksController object
-    }
 
     /**
 	 * 111917kl
@@ -76,7 +66,7 @@ tasksController = function() {
                 $(taskPage).find('#btnRetrieveTasks').click(function(evt) {
                     evt.preventDefault();
                     console.log('making ajax call');
-                    retrieveTasksServer();
+                    /*retrieveTasksServer();*/
                 });
 				
 				$(taskPage).find('#tblTasks tbody').on('click', 'tr', function(evt) {
@@ -119,12 +109,13 @@ tasksController = function() {
 				
 				$(taskPage).find('#saveTask').click(function(evt) {
 					evt.preventDefault();
-					tasksController.saveTask();
+
 					if ($(taskPage).find('form').valid()) {
 						var task = $(taskPage).find('form').toObject();		
 						storageEngine.save('task', task, function() {
 							$(taskPage).find('#tblTasks tbody').empty();
-							tasksController.loadTasks();
+							/*tasksController.loadTasks();*/
+                            tasksController.saveTask();
 							clearTask();
 							$(taskPage).find('#taskCreation').addClass('not');
 						}, errorLogger);
@@ -180,7 +171,21 @@ tasksController = function() {
 
                  }
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
+        },
+        retrieveTasksServer: function() {
+            $.ajax("TaskServlet", {
+                "type": "get",
+                dataType: "json"
+                // "data": {
+                //     "first": first,
+                //     "last": last
+                // }
+            }).done(displayTasksServer.bind()); //need reference to the tasksController object
         }
-	}
 
+    }
+
+	/*retriveData: function() {
+        retrieveTasksServer();
+    }*/
 }();

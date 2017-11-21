@@ -1,7 +1,13 @@
 package utility;
 
+import model.Task;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DbConnection {
 
@@ -31,5 +37,29 @@ public class DbConnection {
             throw new Exception(ex.getMessage());
         }
         return conn;
+    }
+
+    public List<Task> retrieveData(String tableName) throws Exception {
+        String readQuery = String.format("SELECT * from %s", tableName);
+
+        try {
+            Connection con = getConnect();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(readQuery);
+
+            Task task = null;
+            List<Task> taskList = new ArrayList<Task>();
+
+
+            while (result.next()) {
+                task = new Task(Integer.parseInt(result.getString("id")), result.getString("task"), result.getString("user_id"), result.getString("duedate"), result.getString("priority"), result.getString("category"));
+                taskList.add(task);
+            }
+
+            stmt.close();
+            return taskList;
+        } catch (Exception ex) {
+            throw ex;
+        }
     }
 }
