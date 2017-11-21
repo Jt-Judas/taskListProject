@@ -270,19 +270,19 @@
 
 <script id="userRow" type="text/x-jQuery-tmpl">
 <tr>
-	<td {{if complete == true}}class="teamCompleted"{{/if}}>${id}</td>
-	<td {{if complete == true}} class="teamCompleted"{{/if}}>${fName}</td>
-	<td {{if complete == true}} class="teamCompleted"{{/if}}>${lName}</td>
-	<td {{if complete == true}} class="teamCompleted"{{/if}}>${phone}</td>
-	<td {{if complete == true}} class="teamCompleted"{{/if}}>${email}</td>
-	<td {{if complete == true}} class="teamCompleted"{{/if}}>${team}</td>
+	<td {{if complete == true}}class="userCompleted"{{/if}}>${id}</td>
+	<td {{if complete == true}} class="userCompleted"{{/if}}>${fName}</td>
+	<td {{if complete == true}} class="userCompleted"{{/if}}>${lName}</td>
+	<td {{if complete == true}} class="userCompleted"{{/if}}>${phone}</td>
+	<td {{if complete == true}} class="userCompleted"{{/if}}>${email}</td>
+	<td {{if complete == true}} class="userCompleted"{{/if}}>${team}</td>
 	<td>
 		<nav>
 			{{if complete != true}}
-				<a href="#" class="editRow" data-team-id="${id}">Edit</a>
-				<a href="#" class="completeRow" data-team-id="${id}">Complete</a>
+				<a href="#" class="editRow" data-user-id="${id}">Edit</a>
+				<a href="#" class="completeRow" data-user-id="${id}">Complete</a>
 			{{/if}}
-			<a href="#" class="deleteRow" data-team-id="${id}">Delete</a>
+			<a href="#" class="deleteRow" data-user-id="${id}">Delete</a>
 		</nav>
 	</td>
 </tr>
