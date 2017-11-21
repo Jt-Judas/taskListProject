@@ -23,6 +23,11 @@ tasksController = function () {
         tasksController.loadServerTasks(data);
     }
 
+    function displayTeamsServer(data) { //this needs to be bound to the tasksController -- used bind in retrieveTasksServer 111917kl
+        console.log(data);
+        tasksController.loadServerTams(data);
+    }
+
     function taskCountChanged() {
         var count = $(taskPage).find('#tblTasks tbody tr').length;
         $('footer').find('#taskCount').text(count);
@@ -207,6 +212,19 @@ tasksController = function () {
             }, errorLogger);
         },
 
+        loadServerTams: function (teams) {
+            $(taskPage).find('#tblTeam tbody').empty();
+            $.each(teams, function (index, team) {
+                if (!team.complete) {
+                    team.complete = false;
+                }
+                $('#teamRow').tmpl(team).appendTo($(taskPage).find('#tblTeam tbody'));
+                //taskCountChanged();
+                console.log('about to render table with server teams');
+                //renderTable(); --skip for now, this just sets style class for overdue tasks 111917kl
+            });
+        },
+
         saveTask: function () {
             $.ajax("TaskServlet", {
                 "type": "post",
@@ -239,7 +257,7 @@ tasksController = function () {
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         },
         retriveSortTask: function () {
-            $.ajax("TaskServlet", {
+            $.ajax("TaskServlet,", {
                 "type": "get",
                 dataType: "json",
                 "data": {
@@ -253,7 +271,7 @@ tasksController = function () {
             $.ajax("TeamServlet", {
                 "type": "get",
                 dataType: "json"
-            }).done(displayTasksServer.bind()); //need reference to the tasksController object
+            }).done(displayTeamsServer.bind()); //need reference to the tasksController object
         }
 
 
