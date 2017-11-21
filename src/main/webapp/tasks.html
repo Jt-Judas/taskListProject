@@ -53,7 +53,7 @@
     </section>
 
     <section class="not">
-        <table id="tblTeam">
+        <table id="tblTeams">
             <colgroup>
                 <col width="35%">
                 <col width="35%">
@@ -189,6 +189,21 @@
 				<a href="#" class="completeRow" data-task-id="${id}">Complete</a>
 			{{/if}}
 			<a href="#" class="deleteRow" data-task-id="${id}">Delete</a>
+		</nav>
+	</td>
+</tr>
+</script>
+<script id="teamRow" type="text/x-jQuery-tmpl">
+<tr>
+	<td {{if complete == true}}class="teamCompleted"{{/if}}>${name}</td>
+	<td {{if complete == true}} class="teamCompleted"{{/if}}>${description}</td>
+	<td>
+		<nav>
+			{{if complete != true}}
+				<a href="#" class="editRow" data-team-id="${id}">Edit</a>
+				<a href="#" class="completeRow" data-team-id="${id}">Complete</a>
+			{{/if}}
+			<a href="#" class="deleteRow" data-team-id="${id}">Delete</a>
 		</nav>
 	</td>
 </tr>
