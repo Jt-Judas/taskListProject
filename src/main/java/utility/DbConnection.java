@@ -1,6 +1,7 @@
 package utility;
 
 import model.Task;
+import model.Team;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,6 +59,30 @@ public class DbConnection {
 
             stmt.close();
             return taskList;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public List<Team> retrieveTeams(String tableName) throws Exception {
+        String readQuery = String.format("SELECT * from %s", tableName);
+
+        try {
+            Connection con = getConnect();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(readQuery);
+
+            Team team = null;
+            List<Team> teamListList = new ArrayList<Team>();
+
+
+            while (result.next()) {
+                team = new Team(Integer.parseInt(result.getString("id")), result.getString("name"), result.getString("description"));
+                teamListList.add(team);
+            }
+
+            stmt.close();
+            return teamListList;
         } catch (Exception ex) {
             throw ex;
         }
