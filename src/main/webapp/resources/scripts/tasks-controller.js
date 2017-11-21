@@ -150,6 +150,21 @@ tasksController = function () {
                         }, errorLogger);
                     }
                 });
+
+                $(taskPage).find('#btnTeamName').click(function (evt) {
+                    evt.preventDefault();
+
+                    if ($(taskPage).find('form').valid()) {
+                        var task = $(taskPage).find('form').toObject();
+                        storageEngine.save('task', task, function () {
+                            $(taskPage).find('#tblTeam tbody').empty();
+                            /*tasksController.loadTasks();*/
+                            tasksController.retrieveTasksServer();
+                            clearTask();
+                            $(taskPage).find('#taskTeam').addClass('not');
+                        }, errorLogger);
+                    }
+                });
                 initialised = true;
             }
         },
@@ -212,6 +227,12 @@ tasksController = function () {
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         },
         retrieveTasksServer: function () {
+            $.ajax("TaskServlet", {
+                "type": "get",
+                dataType: "json"
+            }).done(displayTasksServer.bind()); //need reference to the tasksController object
+        },
+        retriveSortTask: function () {
             $.ajax("TaskServlet", {
                 "type": "get",
                 dataType: "json"
