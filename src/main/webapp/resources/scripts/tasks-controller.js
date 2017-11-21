@@ -25,7 +25,12 @@ tasksController = function () {
 
     function displayTeamsServer(data) { //this needs to be bound to the tasksController -- used bind in retrieveTasksServer 111917kl
         console.log(data);
-        tasksController.loadServerTams(data);
+        tasksController.loadServerTeams(data);
+    }
+
+    function displayUserServer(data) { //this needs to be bound to the tasksController -- used bind in retrieveTasksServer 111917kl
+        console.log(data);
+        tasksController.loadServerUsers(data);
     }
 
     function taskCountChanged() {
@@ -86,6 +91,7 @@ tasksController = function () {
                     console.log('making ajax call');
                     /*retrieveTasksServer();*/
                     tasksController.retrieveTeams();
+                    tasksController.retrieveUsers();
                 });
 
                 $(taskPage).find('#tblTasks tbody').on('click', 'tr', function (evt) {
@@ -129,11 +135,10 @@ tasksController = function () {
                 $(taskPage).find('#saveTask').click(function (evt) {
                     evt.preventDefault();
 
-                    if ($(taskPage).find('form').valid()) {
-                        var task = $(taskPage).find('form').toObject();
+                    if ($(taskPage).find('#taskForm').valid()) {
+                        var task = $(taskPage).find('#taskForm').toObject();
                         storageEngine.save('task', task, function () {
                             $(taskPage).find('#tblTasks tbody').empty();
-                            /*tasksController.loadTasks();*/
                             tasksController.saveTask();
                             clearTask();
                             $(taskPage).find('#taskCreation').addClass('not');
@@ -144,14 +149,27 @@ tasksController = function () {
                 $(taskPage).find('#saveTeam').click(function (evt) {
                     evt.preventDefault();
 
-                    if ($(taskPage).find('form').valid()) {
-                        var task = $(taskPage).find('form').toObject();
-                        storageEngine.save('task', task, function () {
-                            $(taskPage).find('#tblTeam tbody').empty();
-                            /*tasksController.loadTasks();*/
+                    if ($(taskPage).find('#teamForm').valid()) {
+                        var team = $(taskPage).find('#teamForm').toObject();
+                        storageEngine.save('team', team, function () {
+                            $(taskPage).find('#tblTeams tbody').empty();
                             tasksController.saveTeam();
                             clearTask();
-                            $(taskPage).find('#taskTeam').addClass('not');
+                            $(taskPage).find('#secTeams').addClass('not');
+                        }, errorLogger);
+                    }
+                });
+
+                $(taskPage).find('#saveUser').click(function (evt) {
+                    evt.preventDefault();
+
+                    if ($(taskPage).find('#userForm').valid()) {
+                        var user = $(taskPage).find('#userForm').toObject();
+                        storageEngine.save('user', user, function () {
+                            $(taskPage).find('#tblUsers tbody').empty();
+                            tasksController.saveUser();
+                            clearTask();
+                            $(taskPage).find('#secUsers').addClass('not');
                         }, errorLogger);
                     }
                 });
@@ -212,7 +230,7 @@ tasksController = function () {
             }, errorLogger);
         },
 
-        loadServerTams: function (teams) {
+        loadServerTeams: function (teams) {
             $(taskPage).find('#tblTeams tbody').empty();
             $.each(teams, function (index, team) {
                 if (!team.complete) {
@@ -223,6 +241,19 @@ tasksController = function () {
                 console.log('about to render table with server teams');
                 $(taskPage).find('#secTeams').removeClass('not');
                 //renderTable(); --skip for now, this just sets style class for overdue tasks 111917kl
+            });
+        },
+
+        loadServerUsers: function (users) {
+            $(taskPage).find('#tblUsers tbody').empty();
+            $.each(users, function (index, user) {
+                if (!user.complete) {
+                    user.complete = false;
+                }
+                $('#userRow').tmpl(user).appendTo($(taskPage).find('#tblUsers tbody'));
+                //taskCountChanged();
+                console.log('about to render table with server users');
+                $(taskPage).find('#secUsers').removeClass('not');
             });
         },
 
@@ -251,11 +282,24 @@ tasksController = function () {
                 }
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         },
+
+        saveUser: function () {
+            $.ajax("UserServlet", {
+                "type": "post",
+                "data": {
+                    "fName": $("#txtFName").val(),
+                    "lName": $("#txtLName").val(),
+                    "phone": $("#txtPhone").val(),
+                    "email": $("#txtemail").val(),
+                    "team": $("#txtTeam").val()
+                }
+            }).done(displayUserServer.bind());
+        },
         retrieveTasksServer: function () {
             $.ajax("TaskServlet", {
                 "type": "get",
                 dataType: "json"
-            }).done(displayTasksServer.bind()); //need reference to the tasksController object
+            }).done(displayTasksServer.bind());
         },
         retriveSortTask: function () {
             $.ajax("TaskServlet,", {
@@ -265,17 +309,22 @@ tasksController = function () {
                     "sort": $("#btnName").val(),
 
                 }
-            }).done(displayTasksServer.bind()); //need reference to the tasksController object
+            }).done(displayTasksServer.bind());
         },
 
         retrieveTeams: function () {
             $.ajax("TeamServlet", {
                 "type": "get",
                 dataType: "json"
-            }).done(displayTeamsServer.bind()); //need reference to the tasksController object
+            }).done(displayTeamsServer.bind());
+        },
+
+        retrieveUsers: function () {
+            $.ajax("UserServlet", {
+                "type": "get",
+                dataType: "json"
+            }).done(displayUserServer.bind());
         }
-
-
     }
 
 }();
