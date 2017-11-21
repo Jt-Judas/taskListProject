@@ -36,7 +36,6 @@
             <div>
                 <label>Description</label> <input type="text" required="required" name="txtDescription" id = "txtDescription" class="large" placeholder="Name" maxlength="200"  />
             </div>
-            <
             <div>
                 <label>Head</label>
                 <select name="head" id="head">
@@ -52,12 +51,14 @@
 
     </section>
 
-    <section class="not">
+    <section class="not" id="secTeams">
+       <h4>All the Available teams</h4>
         <table id="tblTeams">
             <colgroup>
-                <col width="35%">
-                <col width="35%">
-                <col width="30%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
             </colgroup>
             <thead>
             <tr>
@@ -107,6 +108,7 @@
         </form>
     </section>
     <section>
+        <h4>All the availabe tasks (select a row to filter by user)</h4>
         <table id="tblTasks">
             <colgroup>
                 <col width="35%">
@@ -197,6 +199,7 @@
 <tr>
 	<td {{if complete == true}}class="teamCompleted"{{/if}}>${name}</td>
 	<td {{if complete == true}} class="teamCompleted"{{/if}}>${description}</td>
+	<td {{if complete == true}} class="teamCompleted"{{/if}}>${head}</td>
 	<td>
 		<nav>
 			{{if complete != true}}
