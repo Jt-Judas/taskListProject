@@ -1,7 +1,7 @@
-tasksController = function() {
+tasksController = function () {
 
     function errorLogger(errorCode, errorMessage) {
-        console.log(errorCode +':'+ errorMessage);
+        console.log(errorCode + ':' + errorMessage);
     }
 
     var taskPage;
@@ -24,7 +24,7 @@ tasksController = function() {
     }
 
     function taskCountChanged() {
-        var count = $(taskPage).find( '#tblTasks tbody tr').length;
+        var count = $(taskPage).find('#tblTasks tbody tr').length;
         $('footer').find('#taskCount').text(count);
     }
 
@@ -33,7 +33,7 @@ tasksController = function() {
     }
 
     function renderTable() {
-        $.each($(taskPage).find('#tblTasks tbody tr'), function(idx, row) {
+        $.each($(taskPage).find('#tblTasks tbody tr'), function (idx, row) {
             var due = Date.parse($(row).find('[datetime]').text());
             if (due.compareTo(Date.today()) < 0) {
                 $(row).addClass("overdue");
@@ -44,39 +44,53 @@ tasksController = function() {
     }
 
     return {
-        init : function(page, callback) {
+        init: function (page, callback) {
             if (initialised) {
                 callback()
             } else {
                 taskPage = page;
-                storageEngine.init(function() {
-                    storageEngine.initObjectStore('task', function() {
+                storageEngine.init(function () {
+                    storageEngine.initObjectStore('task', function () {
                         callback();
                     }, errorLogger)
                 }, errorLogger);
-                $(taskPage).find('[required="required"]').prev('label').append( '<span>*</span>').children( 'span').addClass('required');
+                $(taskPage).find('[required="required"]').prev('label').append('<span>*</span>').children('span').addClass('required');
                 $(taskPage).find('tbody tr:even').addClass('even');
 
-                $(taskPage).find('#btnAddTask').click(function(evt) {
+                $(taskPage).find('#btnAddTask').click(function (evt) {
                     evt.preventDefault();
+                    // language=JQuery-CSS
                     $(taskPage).find('#taskCreation').removeClass('not');
                 });
 
-                /**	 * 11/19/17kl        */
-                $(taskPage).find('#btnRetrieveTasks').click(function(evt) {
+                $(taskPage).find('#bthAddTeam').click(function (evt) {
+                    evt.preventDefault();
+                    $(taskPage).find('#taskTeam').removeClass('not');
+                });
+
+
+                /**     * 11/19/17kl        */
+                $(taskPage).find('#btnRetrieveTasks').click(function (evt) {
                     evt.preventDefault();
                     console.log('making ajax call');
                     /*retrieveTasksServer();*/
                 });
 
-                $(taskPage).find('#tblTasks tbody').on('click', 'tr', function(evt) {
+                $(taskPage).find('#btnFilterTask').click(function (evt) {
+                    evt.preventDefault();
+                    console.log('making ajax call');
+                    /*retrieveTasksServer();*/
+                    tasksController.retrieveTeams();
+                });
+
+                $(taskPage).find('#tblTasks tbody').on('click', 'tr', function (evt) {
                     $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
                 });
 
                 $(taskPage).find('#tblTasks tbody').on('click', '.deleteRow',
-                    function(evt) {
+                    function (evt) {
                         storageEngine.delete('task', $(evt.target).data().taskId,
-                            function() {
+                            function () {
                                 $(evt.target).parents('tr').remove();
                                 taskCountChanged();
                             }, errorLogger);
@@ -85,39 +99,54 @@ tasksController = function() {
                 );
 
                 $(taskPage).find('#tblTasks tbody').on('click', '.editRow',
-                    function(evt) {
+                    function (evt) {
                         $(taskPage).find('#taskCreation').removeClass('not');
-                        storageEngine.findById('task', $(evt.target).data().taskId, function(task) {
+                        storageEngine.findById('task', $(evt.target).data().taskId, function (task) {
                             $(taskPage).find('form').fromObject(task);
                         }, errorLogger);
                     }
                 );
 
-                $(taskPage).find('#clearTask').click(function(evt) {
+                $(taskPage).find('#clearTask').click(function (evt) {
                     evt.preventDefault();
                     clearTask();
                 });
 
-                $(taskPage).find('#tblTasks tbody').on('click', '.completeRow', function(evt) {
-                    storageEngine.findById('task', $(evt.target).data().taskId, function(task) {
+                $(taskPage).find('#tblTasks tbody').on('click', '.completeRow', function (evt) {
+                    storageEngine.findById('task', $(evt.target).data().taskId, function (task) {
                         task.complete = true;
-                        storageEngine.save('task', task, function() {
+                        storageEngine.save('task', task, function () {
                             tasksController.loadTasks();
-                        },errorLogger);
+                        }, errorLogger);
                     }, errorLogger);
                 });
 
-                $(taskPage).find('#saveTask').click(function(evt) {
+                $(taskPage).find('#saveTask').click(function (evt) {
                     evt.preventDefault();
 
                     if ($(taskPage).find('form').valid()) {
                         var task = $(taskPage).find('form').toObject();
-                        storageEngine.save('task', task, function() {
+                        storageEngine.save('task', task, function () {
                             $(taskPage).find('#tblTasks tbody').empty();
                             /*tasksController.loadTasks();*/
                             tasksController.saveTask();
                             clearTask();
                             $(taskPage).find('#taskCreation').addClass('not');
+                        }, errorLogger);
+                    }
+                });
+
+                $(taskPage).find('#saveTeam').click(function (evt) {
+                    evt.preventDefault();
+
+                    if ($(taskPage).find('form').valid()) {
+                        var task = $(taskPage).find('form').toObject();
+                        storageEngine.save('task', task, function () {
+                            $(taskPage).find('#tblTeam tbody').empty();
+                            /*tasksController.loadTasks();*/
+                            tasksController.saveTeam();
+                            clearTask();
+                            $(taskPage).find('#taskTeam').addClass('not');
                         }, errorLogger);
                     }
                 });
@@ -128,7 +157,7 @@ tasksController = function() {
          * 111917kl
          * modification of the loadTasks method to load tasks retrieved from the server
          */
-        loadServerTasks: function(tasks) {
+        loadServerTasks: function (tasks) {
             $(taskPage).find('#tblTasks tbody').empty();
             $.each(tasks, function (index, task) {
                 if (!task.complete) {
@@ -140,13 +169,13 @@ tasksController = function() {
                 //renderTable(); --skip for now, this just sets style class for overdue tasks 111917kl
             });
         },
-        loadTasks : function() {
+        loadTasks: function () {
             $(taskPage).find('#tblTasks tbody').empty();
-            storageEngine.findAll('task', function(tasks) {
-                tasks.sort(function(o1, o2) {
+            storageEngine.findAll('task', function (tasks) {
+                tasks.sort(function (o1, o2) {
                     return Date.parse(o1.requiredBy).compareTo(Date.parse(o2.requiredBy));
                 });
-                $.each(tasks, function(index, task) {
+                $.each(tasks, function (index, task) {
                     if (!task.complete) {
                         task.complete = false;
                     }
@@ -164,28 +193,39 @@ tasksController = function() {
                 "data": {
                     "task": $("#task").val(),
                     "userId": $("#userId").val(),
-                    "requiredBy" :$("#requiredBy").val(),
-                    "priority":$("#priority").val(),
-                    "category" :$("#category").val()
+                    "requiredBy": $("#requiredBy").val(),
+                    "priority": $("#priority").val(),
+                    "category": $("#category").val()
 
 
                 }
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         },
-        retrieveTasksServer: function() {
+
+        saveTeam: function () {
+            $.ajax("TeamServlet", {
+                "type": "post",
+                "data": {
+                    "name": $("#txtTeam").val(),
+                    "description": $("#txtDescription").val(),
+                }
+            }).done(displayTasksServer.bind()); //need reference to the tasksController object
+        },
+        retrieveTasksServer: function () {
             $.ajax("TaskServlet", {
                 "type": "get",
                 dataType: "json"
-                // "data": {
-                //     "first": first,
-                //     "last": last
-                // }
+            }).done(displayTasksServer.bind()); //need reference to the tasksController object
+        },
+
+        retrieveTeams: function () {
+            $.ajax("TeamServlet", {
+                "type": "get",
+                dataType: "json"
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         }
 
+
     }
 
-    /*retriveData: function() {
-        retrieveTasksServer();
-    }*/
 }();
