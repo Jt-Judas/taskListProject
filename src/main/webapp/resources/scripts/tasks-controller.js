@@ -181,5 +181,6 @@ tasksController = function() {
                  }
             }).done(displayTasksServer.bind()); //need reference to the tasksController object
         }
-	} 
+	}
+
 }();
