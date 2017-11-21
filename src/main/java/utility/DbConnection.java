@@ -1,6 +1,8 @@
 package utility;
 
 import model.Task;
+import model.Team;
+import model.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,6 +60,53 @@ public class DbConnection {
 
             stmt.close();
             return taskList;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public List<Team> retrieveTeams(String tableName) throws Exception {
+        String readQuery = String.format("SELECT * from %s", tableName);
+
+        try {
+            Connection con = getConnect();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(readQuery);
+
+            Team team = null;
+            List<Team> teamListList = new ArrayList<Team>();
+
+
+            while (result.next()) {
+                team = new Team(Integer.parseInt(result.getString("id")), result.getString("name"), result.getString("description"));
+                teamListList.add(team);
+            }
+
+            stmt.close();
+            return teamListList;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public List<User> retrieveUSers(String tableName) throws Exception {
+        String readQuery = String.format("SELECT * from %s", tableName);
+
+        try {
+            Connection con = getConnect();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(readQuery);
+
+            User user = null;
+            List<User> userList = new ArrayList<User>();
+
+            while (result.next()) {
+                user = new User(Integer.parseInt(result.getString("id")), result.getString("fname"), result.getString("lname"), result.getString("phone"), result.getString("email"), null);
+                userList.add(user);
+            }
+
+            stmt.close();
+            return userList;
         } catch (Exception ex) {
             throw ex;
         }
