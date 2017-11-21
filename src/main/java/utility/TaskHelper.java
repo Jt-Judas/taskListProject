@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import comparator.NameComparator;
-import comparator.UserIdComparator;
+import comparator.*;
 import model.Task;
 
 public class TaskHelper {
@@ -43,13 +42,16 @@ public class TaskHelper {
                     Collections.sort(taskList,new UserIdComparator());
             		break;
             	case "due":
-            		taskList.stream().sorted((object1, object2) -> object1.getRequiredBy().compareTo(object2.getRequiredBy()));
+            		//taskList.stream().sorted((object1, object2) -> object1.getRequiredBy().compareTo(object2.getRequiredBy()));
+                    Collections.sort(taskList,new DueComparator());
             		break;
             	case "priority":
-            		taskList.stream().sorted((object1, object2) -> object1.getPriority().compareTo(object2.getPriority()));
+            		//taskList.stream().sorted((object1, object2) -> object1.getPriority().compareTo(object2.getPriority()));
+                    Collections.sort(taskList,new PriorityComparator());
             		break;
             	case "category":
-            		taskList.stream().sorted((object1, object2) -> object1.getCategory().compareTo(object2.getCategory()));
+            		//taskList.stream().sorted((object1, object2) -> object1.getCategory().compareTo(object2.getCategory()));
+                    Collections.sort(taskList,new CategoryComparator());
             		break;
         		default:
         			break;
