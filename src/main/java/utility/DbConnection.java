@@ -78,7 +78,7 @@ public class DbConnection {
 
 
             while (result.next()) {
-                team = new Team(Integer.parseInt(result.getString("id")), result.getString("name"), result.getString("description"));
+                team = new Team(Integer.parseInt(result.getString("id")), result.getString("name"), result.getString("description"), null);
                 teamListList.add(team);
             }
 
