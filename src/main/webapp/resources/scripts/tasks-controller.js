@@ -213,12 +213,12 @@ tasksController = function () {
         },
 
         loadServerTams: function (teams) {
-            $(taskPage).find('#tblTeam tbody').empty();
+            $(taskPage).find('#tblTeams tbody').empty();
             $.each(teams, function (index, team) {
                 if (!team.complete) {
                     team.complete = false;
                 }
-                $('#teamRow').tmpl(team).appendTo($(taskPage).find('#tblTeam tbody'));
+                $('#teamRow').tmpl(team).appendTo($(taskPage).find('#tblTeams tbody'));
                 //taskCountChanged();
                 console.log('about to render table with server teams');
                 //renderTable(); --skip for now, this just sets style class for overdue tasks 111917kl
