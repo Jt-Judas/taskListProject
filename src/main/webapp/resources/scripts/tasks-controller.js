@@ -221,6 +221,7 @@ tasksController = function () {
                 $('#teamRow').tmpl(team).appendTo($(taskPage).find('#tblTeams tbody'));
                 //taskCountChanged();
                 console.log('about to render table with server teams');
+                $(taskPage).find('#secTeams').removeClass('not');
                 //renderTable(); --skip for now, this just sets style class for overdue tasks 111917kl
             });
         },
