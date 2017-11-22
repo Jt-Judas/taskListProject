@@ -150,8 +150,8 @@ tasksController = function () {
                 $(taskPage).find('#saveTask').click(function (evt) {
                     evt.preventDefault();
 
-                    if ($(taskPage).find('#taskForm').valid()) {
-                        var task = $(taskPage).find('#taskForm').toObject();
+                    if ($(taskPage).find('form').valid()) {
+                        var task = $(taskPage).find('form').toObject();
                         storageEngine.save('task', task, function () {
                             $(taskPage).find('#tblTasks tbody').empty();
                             tasksController.saveTask();
@@ -164,9 +164,9 @@ tasksController = function () {
                 $(taskPage).find('#saveTeam').click(function (evt) {
                     evt.preventDefault();
 
-                    if ($(taskPage).find('#teamForm').valid()) {
-                        var team = $(taskPage).find('#teamForm').toObject();
-                        storageEngine.save('team', team, function () {
+                    if ($(taskPage).find('form').valid()) {
+                        var task = $(taskPage).find('form').toObject();
+                        storageEngine.save('task', task, function () {
                             $(taskPage).find('#tblTeams tbody').empty();
                             tasksController.saveTeam();
                             clearTask();
@@ -178,9 +178,9 @@ tasksController = function () {
                 $(taskPage).find('#saveUser').click(function (evt) {
                     evt.preventDefault();
 
-                    if ($(taskPage).find('#userForm').valid()) {
-                        var user = $(taskPage).find('#userForm').toObject();
-                        storageEngine.save('user', user, function () {
+                    if ($(taskPage).find('form').valid()) {
+                        var task = $(taskPage).find('form').toObject();
+                        storageEngine.save('task', task, function () {
                             $(taskPage).find('#tblUsers tbody').empty();
                             tasksController.saveUser();
                             clearTask();
@@ -331,8 +331,8 @@ tasksController = function () {
                     "fName": $("#txtFName").val(),
                     "lName": $("#txtLName").val(),
                     "phone": $("#txtPhone").val(),
-                    "email": $("#txtemail").val(),
-                    "team": $("#txtTeam").val()
+                    "email": $("#txtEmail").val(),
+                    "team": $("#team").val()
                 }
             }).done(displayUserServer.bind());
         },
