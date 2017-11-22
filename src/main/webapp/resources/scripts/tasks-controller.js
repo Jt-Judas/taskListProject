@@ -105,12 +105,22 @@ tasksController = function () {
 
                 $(taskPage).find('#tblTasks tbody').on('click', '.deleteRow',
                     function (evt) {
+                    /*
                         storageEngine.delete('task', $(evt.target).data().taskId,
                             function () {
                                 $(evt.target).parents('tr').remove();
                                 taskCountChanged();
                             }, errorLogger);
+                    */
+                        var id = $(this).closest("nav").find(".nr").val();
+                        $.ajax("TaskServlet", {
+                            "type": "delete",
+                            dataType: "json",
+                            "data": {
+                                "id": id                                //"sortdata":
 
+                            }
+                        }).done(displayTasksServer.bind());
                     }
                 );
 
