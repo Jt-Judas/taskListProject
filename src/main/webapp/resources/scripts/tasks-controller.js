@@ -105,13 +105,13 @@ tasksController = function () {
 
                 $(taskPage).find('#tblTasks tbody').on('click', '.deleteRow',
                     function (evt) {
-                    /*
-                        storageEngine.delete('task', $(evt.target).data().taskId,
-                            function () {
-                                $(evt.target).parents('tr').remove();
-                                taskCountChanged();
-                            }, errorLogger);
-                    */
+                        /*
+                            storageEngine.delete('task', $(evt.target).data().taskId,
+                                function () {
+                                    $(evt.target).parents('tr').remove();
+                                    taskCountChanged();
+                                }, errorLogger);
+                        */
                         var id = $(this).closest("nav").find(".nr").val();
                         $.ajax("TaskServlet", {
                             "type": "get",
@@ -120,6 +120,39 @@ tasksController = function () {
                                 "id": id ,
                                 "type": "delete"
 
+                            }
+                        }).done(displayTasksServer.bind());
+                    }
+                );
+
+
+                $(taskPage).find('#tblTasks tbody').on('click', '.editRow',
+                    function (evt) {
+                        /*
+                            storageEngine.delete('task', $(evt.target).data().taskId,
+                                function () {
+                                    $(evt.target).parents('tr').remove();
+                                    taskCountChanged();
+                                }, errorLogger);
+                        */
+                        var id = $(this).closest("nav").find(".nr").val();
+                        $('#task').val($(this).closest("nav").parent().parent().find("td").eq(0).text());
+                        $('#userId').val($(this).closest("nav").parent().parent().find("td").eq(1).text());
+                        $('#requiredBy').val($(this).closest("nav").parent().parent().find("td").eq(2).text());
+                        $('#priority').val($(this).closest("nav").parent().parent().find("td").eq(3).text());
+                        $('#category').val($(this).closest("nav").parent().parent().find("td").eq(4).text());
+
+                        $.ajax("TaskServlet", {
+                            "type": "post",
+                            dataType: "json",
+                            "data": {
+                                "id": id ,
+                                "task": $("#task").val(),
+                                "userId": $("#userId").val(),
+                                "requiredBy": $("#requiredBy").val(),
+                                "priority": $("#priority").val(),
+                                "category": $("#category").val(),
+                                "type": "update"
                             }
                         }).done(displayTasksServer.bind());
                     }

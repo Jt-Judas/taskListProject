@@ -33,6 +33,8 @@ public class TaskServlet extends HttpServlet {
         String requiredBy = request.getParameter("requiredBy");
         String priority = request.getParameter("priority");
         String category = request.getParameter("category");
+        String id = request.getParameter("id");
+        String type = request.getParameter("type");
 
         Connection conn = null;
         Statement stmt = null;
@@ -42,6 +44,10 @@ public class TaskServlet extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql = "INSERT INTO task(task, user_id,duedate,priority,category) VALUES ('" + task + "','" + userId + "','" + requiredBy + "','" + priority + "','" + category + "')";
+            if (type != null)
+            {
+                sql = "update task set task = '" + task + "', user_id = '" + userId + "', duedate = '" + requiredBy + "', priority = '" + priority + "', category = '" + category + "' where id='" + id + "'";
+            }
             stmt.executeUpdate(sql);
             doGet(request,response);
 
