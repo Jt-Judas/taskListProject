@@ -51,7 +51,6 @@ public class Team {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", head=" + head +
                 '}';
     }
 }
