@@ -196,11 +196,11 @@ tasksController = function () {
 
                 $('#tblTeams tbody').click(function (evt) {
                     $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
+                    tasksController.filterUsersByTeam($(evt.target).siblings().andSelf().eq(0).text());
                 });
 
                 $('#tblUsers tbody').click(function (evt) {
                     $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
-                    //console.log($(evt.target).siblings().andSelf().eq(0).text());
                     tasksController.filterTasksByUser($(evt.target).siblings().andSelf().eq(0).text());
                 });
 
@@ -430,6 +430,16 @@ tasksController = function () {
                 dataType: "json",
                 "data": {
                     "userId": userID,
+                    "filter": true
+                }
+            }).done(displayTasksServer.bind());
+        },
+        filterUsersByTeam: function (teamId) {
+            $.ajax("TeamServlet", {
+                "type": "get",
+                dataType: "json",
+                "data": {
+                    "userId": teamId,
                     "filter": true
                 }
             }).done(displayTasksServer.bind());
