@@ -117,7 +117,7 @@ tasksController = function () {
                             "type": "get",
                             dataType: "json",
                             "data": {
-                                "id": id ,
+                                "id": id,
                                 "type": "delete"
 
                             }
@@ -146,7 +146,7 @@ tasksController = function () {
                             "type": "post",
                             dataType: "json",
                             "data": {
-                                "id": id ,
+                                "id": id,
                                 "task": $("#task").val(),
                                 "userId": $("#userId").val(),
                                 "requiredBy": $("#requiredBy").val(),
@@ -187,8 +187,8 @@ tasksController = function () {
 
                 $('#tblUsers tbody').click(function (evt) {
                     $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
-                   console.log($(evt.target).closest('td').find('.userCompleted').innerText);
-                  //  console.log($(this).closest("nav").find(".deleteRow").val());
+                    //console.log($(evt.target).siblings().andSelf().eq(0).text());
+                    tasksController.filterTasksByUser($(evt.target).siblings().andSelf().eq(0).text());
                 });
 
                 $(taskPage).find('#saveTask').click(function (evt) {
@@ -417,6 +417,7 @@ tasksController = function () {
                 dataType: "json",
                 "data": {
                     "userId": userID,
+                    "filter": true
                 }
             }).done(displayTasksServer.bind());
         }
