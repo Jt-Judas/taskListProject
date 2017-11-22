@@ -179,14 +179,32 @@ tasksController = function () {
                     }
                 });
 
-                $(taskPage).find('#btnName').click(function (evt) {
+                $(taskPage).find('#btnPriority').click(function (evt) {
                     evt.preventDefault();
 
-                    $.ajax("TaskServlet,", {
+                    $.ajax("TaskServlet", {
                         "type": "get",
                         dataType: "json",
                         "data": {
-                            "sort": $("#btnName").val()
+                            "sort": $("#btnPriority").val()
+                            //"sortdata":
+
+                        }
+                    }).done(displayTasksServer.bind());
+
+                    //tasksController.retriveSortTask();
+                });
+
+                $(taskPage).find('#btnDue').click(function (evt) {
+                    alert('asdfgh');
+                    evt.preventDefault();
+
+                    $.ajax("TaskServlet", {
+                        "type": "get",
+                        dataType: "json",
+                        "data": {
+                            "sort": $("#btnDue").val()
+                            //"sortdata":
 
                         }
                     }).done(displayTasksServer.bind());
