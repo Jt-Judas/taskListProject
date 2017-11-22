@@ -52,16 +52,18 @@
     </section>
 
     <section class="not" id="secTeams">
-       <h4>All the Available teams</h4>
+       <h6>All the Available teams</h6>
         <table id="tblTeams">
             <colgroup>
+                <col width="5%">
                 <col width="25%">
                 <col width="25%">
-                <col width="25%">
+                <col width="20%">
                 <col width="25%">
             </colgroup>
             <thead>
             <tr>
+                <th><input type="button" id="btnTeamID" value="#" class=" btn-primary-outline" /> </th>
                 <th><input type="button" id="btnTeamName" value="Name" class=" btn-primary-outline" /> </th>
                 <th><input type="button" id=btnTeamDescription" value="Description" class=" btn-primary-outline" /></th>
                 <th><input type="button" id="btnTeamHead" value="Team Head" class=" btn-primary-outline" /></th>
@@ -75,7 +77,7 @@
 
     <section id="taskUsers" class="not">
         <form id="userForm">
-            <h3>Add new user</h3>
+            <h6>Add new user</h6>
 
             <div>
                 <label>First name</label> <input type="text" required="required" name="txtFName" id = "txtFName" class="large" placeholder="First Name" maxlength="200"  />
@@ -104,25 +106,26 @@
     </section>
 
     <section class="not" id="secUsers">
-        <h4>All the Available Users</h4>
+        <h6>All the Available Users</h6>
         <table id="tblUsers">
             <colgroup>
-                <col width="15%">
-                <col width="15%">
-                <col width="15%">
-                <col width="15%">
-                <col width="15%">
+                <col width="5%">
+                <col width="14%">
+                <col width="14%">
+                <col width="14%">
+                <col width="14%">
+                <col width="14%">
                 <col width="25%">
-
             </colgroup>
             <thead>
             <tr>
-                <th id="test"><input type="button" id="btnUser" value="Name" class=" btn-primary-outline" /> </th>
+                <th id="test"><input type="button" id="btnUser" value="#" class=" btn-primary-outline" /> </th>
                 <th><input type="button" id=btnFName" value="First Name" class=" btn-primary-outline" /></th>
                 <th><input type="button" id="btnLName" value="Last Name" class=" btn-primary-outline" /></th>
                 <th><input type="button" id="btnPnone" value="Phone" class=" btn-primary-outline" /></th>
                 <th><input type="button" id="btnEmail" value="Email" class=" btn-primary-outline" /></th>
                 <th><input type="button" id="btnTeam" value="Team" class=" btn-primary-outline" /></th>
+                <th><input type="button" id="btnUserActions" value="Actions" name="sort" class="btn-primary-outline" /></th>
             </tr>
             </thead>
             <tbody>
@@ -166,18 +169,20 @@
     </section>
     <section>
         <input type="hidden" value="" name="direction"/>
-        <h4>All the availabe tasks (select a row to filter by user)</h4>
+        <h6>All the availabe tasks (select a row to filter by user)</h6>
         <table id="tblTasks">
             <colgroup>
-                <col width="35%">
-                <col width="10%">
-                <col width="10%">
+                <col width="5%">
+                <col width="20%">
+                <col width="15%">
+                <col width="15%">
                 <col width="10">
                 <col width="10%">
                 <col width="25%">
             </colgroup>
             <thead>
             <tr>
+                <th><input type="button" id="btnId" value="#"  name="sort" class="btn-primary-outline" /> </th>
                 <th><input type="button" id="btnName" value="Name"  name="sort" class="btn-primary-outline" /> </th>
                 <th><input type="button" id="btnUserId" value="User" name="sort" class="btn-primary-outline" /></th>
                 <th><input type="button" id="btnDue" value="Due" name="sort" class="btn-primary-outline" /></th>
@@ -235,6 +240,7 @@
 
 <script id="taskRow" type="text/x-jQuery-tmpl">
 <tr>
+    <td {{if complete == true}}class="taskCompleted"{{/if}}>${id}</td>
     <td {{if complete == true}}class="taskCompleted"{{/if}}>${task}</td>
 	<td {{if complete == true}} class="taskCompleted"{{/if}}>${userId}</td>
 	<td {{if complete == true}}class="taskCompleted"{{/if}}><time datetime="${requiredBy}">${requiredBy}</time></td>
@@ -254,6 +260,7 @@
 </script>
 <script id="teamRow" type="text/x-jQuery-tmpl">
 <tr>
+	<td {{if complete == true}}class="teamCompleted"{{/if}}>${id}</td>
 	<td {{if complete == true}}class="teamCompleted"{{/if}}>${name}</td>
 	<td {{if complete == true}} class="teamCompleted"{{/if}}>${description}</td>
 	<td {{if complete == true}} class="teamCompleted"{{/if}}>${head}</td>
