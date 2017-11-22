@@ -70,14 +70,9 @@ public class DbConnection {
         }
     }
 
-    public List<Team> retrieveTeams(String tableName, String teamId) throws Exception {
-        String readQuery = "";
-        if (teamId != null) {
-            readQuery = String.format("SELECT * from %s where team = %s", tableName, teamId);
-        } else {
-            readQuery = String.format("SELECT * from %s", tableName);
-        }
+    public List<Team> retrieveTeams(String tableName) throws Exception {
 
+        String readQuery = String.format("SELECT * from %s", tableName);
 
         try {
             Connection con = getConnect();
@@ -100,8 +95,14 @@ public class DbConnection {
         }
     }
 
-    public List<User> retrieveUSers(String tableName) throws Exception {
-        String readQuery = String.format("SELECT * from %s", tableName);
+    public List<User> retrieveUSers(String tableName, String teamId) throws Exception {
+
+        String readQuery = "";
+        if (teamId != null) {
+            readQuery = String.format("SELECT * from %s where team = %s", tableName, teamId);
+        } else {
+            readQuery = String.format("SELECT * from %s", tableName);
+        }
 
         try {
             Connection con = getConnect();
