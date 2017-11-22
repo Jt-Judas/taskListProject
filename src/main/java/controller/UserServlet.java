@@ -51,11 +51,15 @@ public class UserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        String filter = request.getParameter("filter");
         DbConnection dbConn = DbConnection.getInstance();
         User user = null;
         List<User> userList = null;
         try {
-            userList = dbConn.retrieveUSers("user");
+
+            if (filter != null)
+                userList = dbConn.retrieveUSers("user", request.getParameter("teamId"));
+            else userList = dbConn.retrieveUSers("user", null);
 
         } catch (Exception e) {
             out.println(e);
