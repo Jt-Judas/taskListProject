@@ -95,7 +95,7 @@ public class TaskHelper {
         }
 	}   
 	
-	public void deleteTask(int id) throws Exception {
+	public static void deleteTask(int id) throws Exception {
 		
 		DbConnection dbConn = DbConnection.getInstance();
 		String deletedQuery = "DELETE FROM task WHERE id = " + id;
