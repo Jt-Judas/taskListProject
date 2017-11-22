@@ -53,19 +53,29 @@ public class TaskServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-
+        DbConnection dbConn = DbConnection.getInstance();
         List<Task> taskList = null;
         String sort = request.getParameter("sort");
-        if(sort != null){
+        String type = request.getParameter("type");
+        if(sort != null){   //sort
             try {
                 taskList = TaskHelper.sortTask(sort);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        else {
+        else if (type != null)   //delete
+        {
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            try {
+                TaskHelper.deleteTask(id);
+                taskList = dbConn.retrieveData("task");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else { //retrieve
 
-            DbConnection dbConn = DbConnection.getInstance();
             //Task task = null;
             //List<Task> taskList = null;
             try {

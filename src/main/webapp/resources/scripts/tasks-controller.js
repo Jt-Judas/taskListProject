@@ -114,10 +114,11 @@ tasksController = function () {
                     */
                         var id = $(this).closest("nav").find(".nr").val();
                         $.ajax("TaskServlet", {
-                            "type": "delete",
+                            "type": "get",
                             dataType: "json",
                             "data": {
-                                "id": id                                //"sortdata":
+                                "id": id ,
+                                "type": "delete"
 
                             }
                         }).done(displayTasksServer.bind());
