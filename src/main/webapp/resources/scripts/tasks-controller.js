@@ -81,6 +81,19 @@ tasksController = function () {
                 $(taskPage).find('#bthAddUser').click(function (evt) {
                     evt.preventDefault();
                     $(taskPage).find('#taskUsers').removeClass('not');
+
+                    $.ajax("TaskServlet", {
+                        "type": "get",
+                        dataType: "json"
+                    }).done(function (data) {
+                        console.log(data);
+                        var htmlData = "";
+                        for(var i=0; i<data.length;i++) {
+                            htmlData += "<option value='"+data[i].id+"'>" + data[i].id + "</option>"
+                        }
+
+                        $("#team").html(htmlData);
+                    });
                 });
 
 
@@ -166,6 +179,7 @@ tasksController = function () {
                         }, errorLogger);
                     }
                 );
+
 
                 $(taskPage).find('#clearTask').click(function (evt) {
                     evt.preventDefault();
