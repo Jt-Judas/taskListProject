@@ -29,7 +29,8 @@ public class UserServlet extends HttpServlet {
         String lName = request.getParameter("lName");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
-        String teamID = request.getParameter("team");
+        //String teamID = request.getParameter("team");
+        int teamID = 1;
 
         Connection conn = null;
         Statement stmt = null;
