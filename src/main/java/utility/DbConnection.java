@@ -107,17 +107,31 @@ public class DbConnection {
         try {
             Connection con = getConnect();
             Statement stmt = con.createStatement();
+            Statement stmt2 = con.createStatement();
             ResultSet result = stmt.executeQuery(readQuery);
-
             User user = null;
             List<User> userList = new ArrayList<User>();
 
             while (result.next()) {
-                user = new User(Integer.parseInt(result.getString("id")), result.getString("fname"), result.getString("lname"), result.getString("phone"), result.getString("email"), null);
+                Team team = new Team(Integer.parseInt(result.getString("team")), "", "", null);
+                user = new User(Integer.parseInt(result.getString("id")), result.getString("fname"), result.getString("lname"), result.getString("phone"), result.getString("email"), team);
+
                 userList.add(user);
             }
 
+            for (User u : userList) {
+                String teamQuery = String.format("SELECT * from team where id = %s", u.getTeam().getId());
+                ResultSet teamResult = stmt2.executeQuery(teamQuery);
+                Team team = u.getTeam();
+                while (teamResult.next()) {
+                    team.setName(teamResult.getString("name"));
+                    team.setDescription(teamResult.getString("description"));
+                    user.setTeam(team);
+                }
+            }
+
             stmt.close();
+            stmt2.close();
             return userList;
         } catch (Exception ex) {
             throw ex;
