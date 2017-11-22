@@ -44,12 +44,11 @@ public class TaskServlet extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql = "INSERT INTO task(task, user_id,duedate,priority,category) VALUES ('" + task + "','" + userId + "','" + requiredBy + "','" + priority + "','" + category + "')";
-            if (type != null)
-            {
+            if (type != null) {
                 sql = "update task set task = '" + task + "', user_id = '" + userId + "', duedate = '" + requiredBy + "', priority = '" + priority + "', category = '" + category + "' where id='" + id + "'";
             }
             stmt.executeUpdate(sql);
-            doGet(request,response);
+            doGet(request, response);
 
         } catch (Exception e) {
             pw.println(e);
@@ -63,29 +62,27 @@ public class TaskServlet extends HttpServlet {
         List<Task> taskList = null;
         String sort = request.getParameter("sort");
         String type = request.getParameter("type");
-        if(sort != null){   //sort
+        String filter = request.getParameter("filter");
+        if (sort != null) {   //sort
             try {
                 taskList = TaskHelper.sortTask(sort);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else if (type != null)   //delete
+        } else if (type != null)   //delete
         {
             Integer id = Integer.parseInt(request.getParameter("id"));
             try {
                 TaskHelper.deleteTask(id);
-                taskList = dbConn.retrieveData("task");
+                taskList = dbConn.retrieveData("task", null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else { //retrieve
-
-            //Task task = null;
-            //List<Task> taskList = null;
+        } else {
             try {
-                taskList = dbConn.retrieveData("task");
+                if (filter != null)
+                    taskList = dbConn.retrieveData("task", request.getParameter("userId"));
+                else taskList = dbConn.retrieveData("task", null);
 
             } catch (Exception e) {
                 out.println(e);
@@ -93,7 +90,6 @@ public class TaskServlet extends HttpServlet {
 
         }
         String JSONtasks;
-        //List<Task> taskList = new MockData().retrieveTaskList();
         JSONtasks = new Gson().toJson(taskList);
 
         response.setContentType("application/json");
