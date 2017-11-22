@@ -435,14 +435,14 @@ tasksController = function () {
             }).done(displayTasksServer.bind());
         },
         filterUsersByTeam: function (teamId) {
-            $.ajax("TeamServlet", {
+            $.ajax("UserServlet", {
                 "type": "get",
                 dataType: "json",
                 "data": {
                     "teamId": teamId,
                     "filter": true
                 }
-            }).done(displayTasksServer.bind());
+            }).done(displayUserServer.bind());
         }
     }
 
