@@ -439,7 +439,7 @@ tasksController = function () {
                 "type": "get",
                 dataType: "json",
                 "data": {
-                    "userId": teamId,
+                    "teamId": teamId,
                     "filter": true
                 }
             }).done(displayTasksServer.bind());
