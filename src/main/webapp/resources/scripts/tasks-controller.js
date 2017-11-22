@@ -201,6 +201,8 @@ tasksController = function () {
 
                 $('#tblUsers tbody').click(function (evt) {
                     $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
+                   console.log($(evt.target).closest('td').find('.userCompleted').innerText);
+                  //  console.log($(this).closest("nav").find(".deleteRow").val());
                 });
 
                 $(taskPage).find('#saveTask').click(function (evt) {
@@ -422,6 +424,15 @@ tasksController = function () {
                 "type": "get",
                 dataType: "json"
             }).done(displayUserServer.bind());
+        },
+        filterTasksByUser: function (userID) {
+            $.ajax("TaskServlet", {
+                "type": "get",
+                dataType: "json",
+                "data": {
+                    "userId": userID,
+                }
+            }).done(displayTasksServer.bind());
         }
     }
 
