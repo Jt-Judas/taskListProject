@@ -321,8 +321,8 @@ tasksController = function () {
                     "fName": $("#txtFName").val(),
                     "lName": $("#txtLName").val(),
                     "phone": $("#txtPhone").val(),
-                    "email": $("#txtemail").val(),
-                    "team": $("#txtTeam").val()
+                    "email": $("#txtEmail").val(),
+                    "team": $("#team").val()
                 }
             }).done(displayUserServer.bind());
         },
