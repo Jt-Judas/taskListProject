@@ -105,13 +105,13 @@ tasksController = function () {
 
                 $(taskPage).find('#tblTasks tbody').on('click', '.deleteRow',
                     function (evt) {
-                    /*
-                        storageEngine.delete('task', $(evt.target).data().taskId,
-                            function () {
-                                $(evt.target).parents('tr').remove();
-                                taskCountChanged();
-                            }, errorLogger);
-                    */
+                        /*
+                            storageEngine.delete('task', $(evt.target).data().taskId,
+                                function () {
+                                    $(evt.target).parents('tr').remove();
+                                    taskCountChanged();
+                                }, errorLogger);
+                        */
                         var id = $(this).closest("nav").find(".nr").val();
                         $.ajax("TaskServlet", {
                             "type": "get",
@@ -154,6 +154,8 @@ tasksController = function () {
 
                 $('#tblUsers tbody').click(function (evt) {
                     $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
+                   console.log($(evt.target).closest('td').find('.userCompleted').innerText);
+                  //  console.log($(this).closest("nav").find(".deleteRow").val());
                 });
 
                 $(taskPage).find('#saveTask').click(function (evt) {
@@ -374,6 +376,15 @@ tasksController = function () {
                 "type": "get",
                 dataType: "json"
             }).done(displayUserServer.bind());
+        },
+        filterTasksByUser: function (userID) {
+            $.ajax("TaskServlet", {
+                "type": "get",
+                dataType: "json",
+                "data": {
+                    "userId": userID,
+                }
+            }).done(displayTasksServer.bind());
         }
     }
 
