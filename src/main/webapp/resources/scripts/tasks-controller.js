@@ -148,6 +148,14 @@ tasksController = function () {
                     }, errorLogger);
                 });
 
+                $('#tblTeams tbody').click(function (evt) {
+                    $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
+                });
+
+                $('#tblUsers tbody').click(function (evt) {
+                    $(evt.target).closest('td').siblings().andSelf().toggleClass('rowHighlight');
+                });
+
                 $(taskPage).find('#saveTask').click(function (evt) {
                     evt.preventDefault();
 
