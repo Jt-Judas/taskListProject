@@ -89,7 +89,7 @@ tasksController = function () {
                         console.log(data);
                         var htmlData = "";
                         for(var i=0; i<data.length;i++) {
-                            htmlData += "<option value='"+data[i].name+"'>" + data[i].name + "</option>"
+                            htmlData += "<option value='"+data[i].id+"'>" + data[i].name + "</option>"
                         }
                         $("#team").html(htmlData);
                     });
