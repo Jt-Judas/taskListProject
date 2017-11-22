@@ -82,16 +82,15 @@ tasksController = function () {
                     evt.preventDefault();
                     $(taskPage).find('#taskUsers').removeClass('not');
 
-                    $.ajax("TaskServlet", {
+                    $.ajax("TeamServlet", {
                         "type": "get",
                         dataType: "json"
                     }).done(function (data) {
                         console.log(data);
                         var htmlData = "";
                         for(var i=0; i<data.length;i++) {
-                            htmlData += "<option value='"+data[i].id+"'>" + data[i].id + "</option>"
+                            htmlData += "<option value='"+data[i].name+"'>" + data[i].name + "</option>"
                         }
-
                         $("#team").html(htmlData);
                     });
                 });
