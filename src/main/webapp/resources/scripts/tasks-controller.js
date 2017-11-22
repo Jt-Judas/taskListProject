@@ -196,7 +196,6 @@ tasksController = function () {
                 });
 
                 $(taskPage).find('#btnDue').click(function (evt) {
-                    alert('asdfgh');
                     evt.preventDefault();
 
                     $.ajax("TaskServlet", {
