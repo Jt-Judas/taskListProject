@@ -327,6 +327,7 @@ tasksController = function () {
             });
         },
 
+
         loadServerUsers: function (users) {
             $(taskPage).find('#tblUsers tbody').empty();
             $.each(users, function (index, user) {
