@@ -41,8 +41,13 @@ public class DbConnection {
         return conn;
     }
 
-    public List<Task> retrieveData(String tableName) throws Exception {
-        String readQuery = String.format("SELECT * from %s", tableName);
+    public List<Task> retrieveData(String tableName, String userId) throws Exception {
+        String readQuery = "";
+        if (userId != null) {
+            readQuery = String.format("SELECT * from %s where user_id = %s", tableName, userId);
+        } else {
+            readQuery = String.format("SELECT * from %s", tableName);
+        }
 
         try {
             Connection con = getConnect();
@@ -66,6 +71,7 @@ public class DbConnection {
     }
 
     public List<Team> retrieveTeams(String tableName) throws Exception {
+
         String readQuery = String.format("SELECT * from %s", tableName);
 
         try {
@@ -89,8 +95,14 @@ public class DbConnection {
         }
     }
 
-    public List<User> retrieveUSers(String tableName) throws Exception {
-        String readQuery = String.format("SELECT * from %s", tableName);
+    public List<User> retrieveUSers(String tableName, String teamId) throws Exception {
+
+        String readQuery = "";
+        if (teamId != null) {
+            readQuery = String.format("SELECT * from %s where team = %s", tableName, teamId);
+        } else {
+            readQuery = String.format("SELECT * from %s", tableName);
+        }
 
         try {
             Connection con = getConnect();
